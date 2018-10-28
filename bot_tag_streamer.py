@@ -75,14 +75,14 @@ class TwitterListener(StreamListener):
         self.max_tweets -= 1
 
         if self.max_tweets < 0:
+            self.csv_file.close()
             return False
         
         return True
 
     def on_error(self, status):
-        if status == 420:
-            self.csv_file.close()
-            return False        
+        self.csv_file.close()
+        return False        
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
