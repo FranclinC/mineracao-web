@@ -37,6 +37,8 @@ class UserStreamListener(StreamListener):
         return False
 """
 
+# Based on: https://gist.github.com/dev-techmoe/ef676cdd03ac47ac503e856282077bf2
+
 def get_all_tweets(user_id):
     try:
         alltweets = []
@@ -98,6 +100,9 @@ if __name__ == "__main__":
     concatenated_files = pd.concat(data_from_files, ignore_index = True)
 
     users_ids = concatenated_files[["user_id"]]
+    users_ids.drop_duplicates(inplace = True)
+    
+    print ("Total users to tweets tweets from: %d" % (len(users_ids)))
     
     userStreamer = UserLogInApi()
     api = userStreamer.authenticate()
