@@ -58,11 +58,30 @@ def get_all_tweets(user_id):
             
             print ("...%s tweets downloaded so far" % (len(alltweets)))
             
-        outtweets = [[tweet.id_str, tweet.created_at, tweet.text.encode("utf-8")] for tweet in alltweets]
+        outtweets = [[
+                tweet.id_str, 
+                tweet.created_at, 
+                tweet.text.encode("utf-8"),
+                tweet.retweeted,
+                tweet.favorite_count,
+                tweet.user.screen_name,
+                tweet.user.id_str,
+                tweet.retweet_count,
+                tweet.place
+                ] for tweet in alltweets]
         
         with open('user_tweets/%s_tweets.csv' % user_id, 'w', encoding = 'utf-8') as f:
             writer = csv.writer(f)
-            writer.writerow(["id", "created_at", "text"])
+            writer.writerow(["id", 
+                             "created_at", 
+                             "text", 
+                             "retweeted", 
+                             "favorite_count",
+                             "user_screen_name",
+                             "user_id",
+                             "retweet_count",
+                             "place"
+                             ])
             writer.writerows(outtweets)
     except tweepy.TweepError:
         print ("Can't get access to this user, skipping it.")
